@@ -1,11 +1,11 @@
-package br.com.unisinos.redes.client;
+package br.com.unisinos.redes.naruto.service;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.Socket;
 
-public class client{
-    private static Scanner TECLADO = new Scanner(System.in);
+public class ClienteTCP {
 
     public static void main (String args[]) throws Exception{
 
@@ -80,6 +80,7 @@ public class client{
         Socket socketCliente = new Socket("idHosp", 6789);
         BufferedReader doServidor = new BufferedReader(new
                 InputStreamReader(socketCliente.getInputStream()));
+
         String resposta = doServidor.readLine();
         socketCliente.close();
         return resposta;
