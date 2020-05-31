@@ -1,12 +1,15 @@
-package br.com.unisinos.redes.naruto.service;
+package src.main.java.br.com.unisinos.redes.naruto.service;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClienteTCP {
-
+    private static final Scanner TECLADO = new Scanner(System.in);
+    private static Socket socketConexao;
     public static void main (String args[]) throws Exception{
 
         System.out.println("Bem vindo ao naruto Battle!");
@@ -19,6 +22,7 @@ public class ClienteTCP {
         System.out.println("Escolha com quem irá jogar:");
         //ListarPersonagem
         String escolha = TECLADO.nextLine();
+        System.out.println(escolha + '-');
         enviarParaServidor(escolha);
         String resposta = receberDoServidor();
         if(resposta == "iniciar"){
@@ -49,40 +53,33 @@ public class ClienteTCP {
 
             String frase = "isConect";
             String fraseModificada;
-            Socket socketCliente = new Socket("idHosp", 6789);
+            socketConexao = new Socket("127.0.0.1", 6789);
             DataOutputStream paraServidor =
-                    new DataOutputStream(socketCliente.getOutputStream());
+                    new DataOutputStream(socketConexao.getOutputStream());
             BufferedReader doServidor = new BufferedReader(new
-                    InputStreamReader(socketCliente.getInputStream()));
+                    InputStreamReader(socketConexao.getInputStream()));
             paraServidor.writeBytes(frase + '\n');
             fraseModificada = doServidor.readLine();
-            socketCliente.close();
             return Boolean.parseBoolean(fraseModificada);
         }
         catch(Exception ex){
             System.out.println("Erro:" + ex.getMessage());
             return false;
         }
-        finally {
-            return false;
-        }
     }
 
     private static void enviarParaServidor(String mensagem) throws IOException {
-        Socket socketCliente = new Socket("idHosp", 6789);
+
         DataOutputStream paraServidor =
-                new DataOutputStream(socketCliente.getOutputStream());
+                new DataOutputStream(socketConexao.getOutputStream());
         paraServidor.writeBytes(mensagem + '\n');
-        socketCliente.close();
     }
 
     private static String receberDoServidor() throws IOException {
-        Socket socketCliente = new Socket("idHosp", 6789);
         BufferedReader doServidor = new BufferedReader(new
-                InputStreamReader(socketCliente.getInputStream()));
+                InputStreamReader(socketConexao.getInputStream()));
 
         String resposta = doServidor.readLine();
-        socketCliente.close();
         return resposta;
     }
 }
