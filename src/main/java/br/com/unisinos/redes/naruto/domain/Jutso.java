@@ -1,4 +1,4 @@
-package src.main.java.br.com.unisinos.redes.naruto.domain;
+package br.com.unisinos.redes.naruto.domain;
 
 public class Jutso {
     private int atributo;

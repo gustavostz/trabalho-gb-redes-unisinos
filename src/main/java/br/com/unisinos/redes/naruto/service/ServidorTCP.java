@@ -1,4 +1,8 @@
-package src.main.java.br.com.unisinos.redes.naruto.service;
+package br.com.unisinos.redes.naruto.service;
+
+import br.com.unisinos.redes.naruto.domain.ColecaoNinja;
+import br.com.unisinos.redes.naruto.domain.Ninja;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -9,7 +13,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import src.main.java.br.com.unisinos.redes.naruto.domain.Ninja;
+
 
 public class ServidorTCP {
     private static final String TENTATIVA_CONEXAO = "isConect";
@@ -17,15 +21,20 @@ public class ServidorTCP {
 
         String fraseCliente;
         String fraseMaiusculas;
+        List<Ninja> colecaoNinja = ColecaoNinja.getColecaoNinja();
         List<Ninja> ninjaBatalha = new ArrayList<>(2);
 
         ServerSocket socketRecepcao = new ServerSocket(6789);
         Socket socketConexao = socketRecepcao.accept();
+
         while(ninjaBatalha.size() < 2){
             BufferedReader doCliente = new BufferedReader(new InputStreamReader(socketConexao.getInputStream()));
             fraseCliente = doCliente.readLine();
             if(TENTATIVA_CONEXAO.equals(fraseCliente)){
                 enviarParaCliente("true",socketConexao);
+
+                enviarParaCliente(new Gson().toJson(ColecaoNinja.stringListaPersonagens(colecaoNinja)),socketConexao);
+
                 String personagem = null;
                 do{
                     personagem = receberDoCliente(socketConexao);
