@@ -15,45 +15,34 @@ import java.util.List;
 
 
 
-public class ServidorTCP {
+public class ServidorTCP implements Runnable{
     private static final String TENTATIVA_CONEXAO = "isConect";
+    private Socket cliente;
+
+    public ServidorTCP(Socket cliente){
+        this.cliente = cliente;
+    }
+
     public static void main(String args[]) throws Exception {
 
         String fraseCliente;
         String fraseMaiusculas;
         List<Ninja> colecaoNinja = ColecaoNinja.getColecaoNinja();
         List<Ninja> ninjaBatalha = new ArrayList<>(2);
-
-        ServerSocket socketRecepcao = new ServerSocket(6789);
-        Socket socketConexao = socketRecepcao.accept();
-
-        while(ninjaBatalha.size() < 2){
-            BufferedReader doCliente = new BufferedReader(new InputStreamReader(socketConexao.getInputStream()));
-            fraseCliente = doCliente.readLine();
-            if(TENTATIVA_CONEXAO.equals(fraseCliente)){
-                enviarParaCliente("true",socketConexao);
-
-                enviarParaCliente(new Gson().toJson(ColecaoNinja.stringListaPersonagens(colecaoNinja)),socketConexao);
-
-                String personagem = null;
-                do{
-                    personagem = receberDoCliente(socketConexao);
-
-                }while( personagem == null || personagem.isEmpty());
-
-            }
-
-        }
-        enviarParaCliente("iniciar",socketConexao);
+        ServerSocket serverSocket = new ServerSocket(6789);
+        System.out.println("Porta 6789 aberta!");
 
         while (true) {
-            BufferedReader doCliente = new BufferedReader(new InputStreamReader(socketConexao.getInputStream()));
-
-            DataOutputStream paraCliente = new DataOutputStream(socketConexao.getOutputStream());
-            fraseCliente= doCliente.readLine();
-            fraseMaiusculas= fraseCliente.toUpperCase() + '\n';
-            paraCliente.writeBytes(fraseMaiusculas);
+            Socket cliente = serverSocket.accept();
+            // Cria uma thread do servidor para tratar a conexão
+            ServidorTCP tratamento = new ServidorTCP(cliente);
+            Thread t = new Thread(tratamento);
+            // Inicia a thread para o cliente conectado
+            t.start();
         }
+    }
+
+    private static void sleep(int i) {
     }
 
     private static void enviarParaCliente(String mensagem,Socket socket) throws IOException {
@@ -64,6 +53,39 @@ public class ServidorTCP {
     private static String receberDoCliente(Socket socket) throws IOException {
         BufferedReader doCliente = new BufferedReader(new
                 InputStreamReader(socket.getInputStream()));
+        String resposta = doCliente.readLine();
+        return resposta;
+    }
+    @Override
+    public void run() {
+        try {
+            System.out.println("Nova conexao com o cliente " + this.cliente.getInetAddress().getHostAddress());
+
+            BufferedReader doCliente =  new BufferedReader(new InputStreamReader(this.cliente.getInputStream()));
+            String fraseCliente = doCliente.readLine();
+            if (TENTATIVA_CONEXAO.equals(fraseCliente)) {
+                enviarParaCliente("true");
+
+                //enviarParaCliente(new Gson().toJson(ColecaoNinja.stringListaPersonagens(colecaoNinja)), socketConexao);
+
+                String personagem = null;
+                do {
+                    personagem = receberDoCliente();
+                } while (personagem == null || personagem.isEmpty());
+                System.out.println("sucesso coneção "+this.cliente.getInetAddress().getHostAddress());
+            }
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
+    private void enviarParaCliente(String mensagem) throws IOException {
+        DataOutputStream paraCliente = new DataOutputStream(this.cliente.getOutputStream());
+        paraCliente.writeBytes(mensagem+ '\n');
+    }
+
+    private String receberDoCliente() throws IOException {
+        BufferedReader doCliente = new BufferedReader(new
+                InputStreamReader(this.cliente.getInputStream()));
         String resposta = doCliente.readLine();
         return resposta;
     }
