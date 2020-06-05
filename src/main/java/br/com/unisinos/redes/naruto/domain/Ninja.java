@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 @AllArgsConstructor
-@Builder
 public class Ninja {
-
+    private int idNinja;
     private String name;
     private int ataqueNormal;
     private Jutso poder;
