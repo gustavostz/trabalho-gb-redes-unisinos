@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 public class ColecaoNinja {
 
 
@@ -15,16 +14,19 @@ public class ColecaoNinja {
         nomesNinja.forEach(nomeNinja -> colecaoNinja.add(createNinjaRandom(nomeNinja)));
 
         return colecaoNinja;
-    };
+    }
 
     public static Ninja createNinjaRandom(String name) {
+        int chackraMax = new Random().nextInt(101); // chackra entre 0 e 100
+        int vidaMax =  new Random().nextInt(301) + 10; // vida entre 10 e 300
         return Ninja.builder()
                 .name(name)
-                .ataqueNormal(new Random().nextInt(251) + 10) // vida entre 10 e 250
-                .chackra(new Random().nextInt(101))// vida entre 0 e 100
-//                .jutsoAtivo()
-//                .poder()
-                .vida(new Random().nextInt(301) + 10) // vida entre 10 e 300
+                .ataqueNormal(new Random().nextInt(251) + 10) // ataque entre 10 e 250
+                .chackra(chackraMax)
+                .chackraMax(chackraMax)
+                .jutsu(getRandomJutsu(chackraMax))
+                .vida(vidaMax)
+                .vidaMax(vidaMax)
                 .build();
     };
 
@@ -54,5 +56,17 @@ public class ColecaoNinja {
         listaPersonagens.add("==================================================");
 
         return listaPersonagens;
+    }
+
+    private static Jutsu getRandomJutsu(int chackraMax){
+        List<String> jutsuName = Arrays.asList("Doryuuheki no Jutsu", "Suijinheki no Jutsu", "Goukakyuu no Jutsu", "Rasenshuriken", "Chidori");
+        List<String> jutsuAtributo = Arrays.asList("Terra", "Água", "Fogo", "Vento", "Relâmpago");
+        int nomeEAtributoAleatorio = new Random().nextInt(4);
+        return Jutsu.builder()
+                .nome(jutsuName.get(nomeEAtributoAleatorio))
+                .atributo(jutsuAtributo.get(nomeEAtributoAleatorio))
+                .chackaConsumido( new Random().nextInt(chackraMax)) // random entre 0 e o max do chackra do ninja
+                .dano(new Random().nextInt(281) + 35) // ataque entre 35 e 280)
+                .build();
     }
 }
