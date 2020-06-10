@@ -65,7 +65,7 @@ public class ColecaoNinja {
         return Jutsu.builder()
                 .nome(jutsuName.get(nomeEAtributoAleatorio))
                 .atributo(jutsuAtributo.get(nomeEAtributoAleatorio))
-                .chackaConsumido( new Random().nextInt(chackraMax)) // random entre 0 e o max do chackra do ninja
+                .chackaConsumido(new Random().nextInt(Math.max(1,chackraMax))) // random entre 0 e o max do chackra do ninja
                 .dano(new Random().nextInt(281) + 35) // ataque entre 35 e 280)
                 .build();
     }

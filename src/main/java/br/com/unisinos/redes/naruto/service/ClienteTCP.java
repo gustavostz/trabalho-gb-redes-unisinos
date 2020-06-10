@@ -23,20 +23,23 @@ public class ClienteTCP {
 
         System.out.println("Bem vindo ao naruto Battle!");
 
-        System.out.println("Tentando conexão com o servidor...");
-        while(!conectarServidor()){
-            System.out.println("Erro na conexão, tentando novamente...");
-        }
 
+        System.out.println("Conectando conexão com o servidor...");
+        while(!conectarServidor()){
+            System.out.println("Erro na conexão Servidor, tentando novamente...");
+        }
+        System.out.println("Conectando conexão com o Controle Jogo...");
+        while(!conectarControleDeJogo()){
+            System.out.println("Erro na conexão Controle Jogo, tentando novamente...");
+        }
         enviarParaServidor("ok");
-        int identificador = ninjaAtribuido.getIdNinja();
-        System.out.println("Escolha com quem irá jogar:");
-//        Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
-//
-//        ArrayList<User> userArray = gson.fromJson(userJson, userListType);
+
 
         List<String> listaPersonagem = Arrays.asList(new Gson().fromJson(receberDoServidor(), String[].class));
         listaPersonagem.forEach(System.out::println);
+
+        int identificador = ninjaAtribuido.getIdNinja();
+        System.out.print("Escolha com quem irá jogar: ");
 
         String escolha = TECLADO.nextLine();
         enviarParaServidor(escolha);
@@ -83,7 +86,6 @@ public class ClienteTCP {
     }
 
     private static boolean minhaVezDeLutar(int id) throws IOException, InterruptedException {
-        conectarControleDeJogo();
         while(!ControleDeJogo.isVezDesteJogador(id)){
             Thread.sleep(1000);
             ControleDeJogo.setIdJogadorAtual(new Gson().fromJson(receberDoControleJogo(), int.class));
@@ -108,7 +110,6 @@ public class ClienteTCP {
     private static boolean conectarControleDeJogo(){
         try{
             socketControleJogo = new Socket("127.0.0.1", 6788);
-            enviarParaServidor("isConect");
             return true;
         }
         catch(Exception ex){
@@ -118,7 +119,6 @@ public class ClienteTCP {
     }
 
     private static void enviarParaControleJogo(String mensagem) throws IOException {
-
         DataOutputStream paraServidor =
                 new DataOutputStream(socketControleJogo.getOutputStream());
         paraServidor.writeBytes(mensagem + '\n');
