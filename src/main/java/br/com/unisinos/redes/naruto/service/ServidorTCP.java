@@ -3,6 +3,10 @@ package br.com.unisinos.redes.naruto.service;
 import br.com.unisinos.redes.naruto.domain.ColecaoNinja;
 import br.com.unisinos.redes.naruto.domain.ControleDeJogo;
 import br.com.unisinos.redes.naruto.domain.Ninja;
+import br.com.unisinos.redes.naruto.domain.StatusPartida;
+import br.com.unisinos.redes.naruto.request.BatalhaRequest;
+import br.com.unisinos.redes.naruto.response.BatalhaResponse;
+import br.com.unisinos.redes.naruto.response.IdentificadorResponse;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -13,35 +17,34 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 public class ServidorTCP implements Runnable{
     private static final String TENTATIVA_CONEXAO = "isConect";
     private Socket cliente;
-    private List<Ninja> colecaoNinja;
-    private ControleDeJogo controleDeJogo;
+    private List<Ninja> ninjasDaBatalha;
     private int idSocket;
+    private ControleDeJogo controleDeJogo;
 
-
-    public ServidorTCP(Socket cliente,List<Ninja> colecaoNinja,ControleDeJogo controleDeJogo,int idSocket){
+    public ServidorTCP(Socket cliente, List<Ninja> ninjasDaBatalha, int idSocket,ControleDeJogo controleDeJogo){
         this.cliente = cliente;
-        this.colecaoNinja = colecaoNinja;
-        this.controleDeJogo = controleDeJogo;
+        this.ninjasDaBatalha = ninjasDaBatalha;
         this.idSocket = idSocket;
+        this.controleDeJogo = controleDeJogo;
     }
 
     public static void main(String args[]) throws Exception {
 
-        ControleDeJogo controle = new ControleDeJogo(false);
         List<Ninja> ninjaBatalha = new ArrayList<>(2);
         ServerSocket serverSocket = new ServerSocket(6789);
         System.out.println("Porta 6789 aberta!");
         int aberturaDeSocket = 0;
+        ControleDeJogo controle = new ControleDeJogo();
+
+
         while (aberturaDeSocket++ < 2) {
             Socket cliente = serverSocket.accept();
             // Cria uma thread do servidor para tratar a conexão
-            ServidorTCP tratamento = new ServidorTCP(cliente,ninjaBatalha,controle,aberturaDeSocket);
+            ServidorTCP tratamento = new ServidorTCP(cliente, ninjaBatalha, aberturaDeSocket,controle);
             Thread t = new Thread(tratamento);
             // Inicia a thread para o cliente conectado
             t.start();
@@ -49,15 +52,19 @@ public class ServidorTCP implements Runnable{
         while(ninjaBatalha.size() < 2){
             Thread.sleep(1000);
         }
-        controle.setIniciarJogo(true);
-        System.out.println("inciando o jogo -- thread principal");
-    }
 
-    private static void sleep(int i) {
-        try {
-            Thread.sleep((long) i);
-        }catch (Exception e ){
-            e.getStackTrace();
+//        ControleDeJogo.setIdJogadorAtual(1);
+//        ServerSocket controleJogoSocket = new ServerSocket(6788);
+//        Socket cliente = controleJogoSocket.accept();
+//        BufferedReader doCliente =  new BufferedReader(new InputStreamReader(cliente.getInputStream()));
+//        String fraseCliente = doCliente.readLine();
+//        if (TENTATIVA_CONEXAO.equals(fraseCliente)) {
+//
+//        }
+
+        System.out.println("iniciando o jogo -- thread principal");
+        while(controle.getNinjaVencedor() == null){
+            Thread.sleep(1000);
         }
     }
 
@@ -68,25 +75,28 @@ public class ServidorTCP implements Runnable{
 
             BufferedReader doCliente =  new BufferedReader(new InputStreamReader(this.cliente.getInputStream()));
             String fraseCliente = doCliente.readLine();
-            if (TENTATIVA_CONEXAO.equals(fraseCliente)) {
+            if (TENTATIVA_CONEXAO.equals(fraseCliente)){
                 //estabelecida a conexão envia um identificador ao qual o objeto deve se associar
-                enviarParaCliente(new Gson().toJson(Ninja.builder().
-                        idNinja(this.idSocket)));
-                if(receberDoCliente().equalsIgnoreCase("ok")) {
+                enviarParaCliente(new Gson().toJson( new IdentificadorResponse(this.idSocket)), this.cliente);
+
+                if(receberDoCliente(this.cliente).equalsIgnoreCase("ok")) {
                     List<Ninja> ninjasBatalhantes = ColecaoNinja.getColecaoNinja();
-                    enviarParaCliente(new Gson().toJson(ColecaoNinja.stringListaPersonagens(ninjasBatalhantes)));
+                    enviarParaCliente(new Gson().toJson(ColecaoNinja.stringListaPersonagens(ninjasBatalhantes)), this.cliente);
                     Ninja ninjaEscolhido;
                     do {
-                        String personagem = receberDoCliente();
+                        String personagem = receberDoCliente(this.cliente);
                         ninjaEscolhido = ninjasBatalhantes.stream().filter(x -> x.getName().equalsIgnoreCase(personagem))
                                 .findFirst()
                                 .orElse(null);
 
                     } while (ninjaEscolhido == null);
-                    System.out.println("o jogador " + this.cliente.getInetAddress().getHostAddress() + "escolheu: " + ninjaEscolhido.getName());
-                    this.colecaoNinja.add(ninjaEscolhido);
-                    enviarParaCliente(new Gson().toJson(ninjaEscolhido));
-                    iniciarJogo();
+                    System.out.println("o jogador " + this.cliente.getInetAddress().getHostAddress() + " escolheu: " + ninjaEscolhido.getName());
+                    this.ninjasDaBatalha.add(ninjaEscolhido);
+                    enviarParaCliente(new Gson().toJson(ninjaEscolhido), this.cliente);
+                    int identificador = new Gson().fromJson(receberDoCliente(this.cliente),Ninja.class).getIdNinja();
+                    ninjaEscolhido.setIdNinja(identificador);
+                    this.controleDeJogo.addUser(identificador);
+                    jogar(ninjaEscolhido);
                 }
             }
         }catch (Exception exception){
@@ -94,24 +104,94 @@ public class ServidorTCP implements Runnable{
         }
     }
 
-    private void iniciarJogo() {
-        while(!this.controleDeJogo.isIniciarJogo()){
-            System.out.println("Aguardando o oponente");
-            sleep(10000);
+    private void jogar(Ninja ninjaEscolhido) throws IOException, InterruptedException {
+        System.out.println("Iniciando o jogo " + this.cliente.getInetAddress().getHostAddress());
+        while(ninjasDaBatalha.size() < 2){
+            Thread.sleep(1000);
         }
-        System.out.println("inciando o jogo" + this.cliente.getInetAddress().getHostAddress());
+        boolean ninguemPerdeu = true;
+        do {
+            while (!this.controleDeJogo.isVezDesteJogador(ninjaEscolhido.getIdNinja())) {
+                Thread.sleep(1000);
+                System.out.println("Esperando o jogador adversario fazer sua jogada");
+            }
+            if(controleDeJogo.getNinjaVencedor() == null) {
+                //minha vez de jogar
+                //buscar o jogador atualizado
+
+                Ninja ninjaSendoJogadoAtualmente = this.ninjasDaBatalha.stream().
+                        filter(ninja -> ninja.equals(ninjaEscolhido)).
+                                findFirst().
+                                get();
+
+                BatalhaResponse batalhaResponse = new BatalhaResponse();
+
+                batalhaResponse.setNinjaAtual(ninjaSendoJogadoAtualmente);
+                Ninja ninjaAdversario = this.ninjasDaBatalha.stream().
+                        filter(item -> item.getIdNinja() == controleDeJogo.getIdAdversario())
+                        .findFirst().
+                                get();
+                batalhaResponse.setNinjaOponente(ninjaAdversario);
+                batalhaResponse.setStatusPartida(StatusPartida.SUA_VEZ);
+
+                enviarParaCliente(new Gson().toJson(batalhaResponse), this.cliente);
+
+                Thread.sleep(1000);
+
+                //estou mantendo para caso o ninja tenha mais de um jutso
+                BatalhaRequest batalhaRequest = new Gson().fromJson(receberDoCliente(this.cliente), BatalhaRequest.class);
+
+                //atualiza estado do oponente
+                ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
+
+                ninjaSendoJogadoAtualmente.recuperaPoucoChackra();
+                //verifica condição do oponente
+                ninguemPerdeu = ninjaAdversario.isVivo();
+                //atualiza o controle do jogo para ser a vez do adversario
+                this.controleDeJogo.atualizaJogadorAtual();
+            }
+            else{
+                enviarParaCliente(new Gson().
+                                toJson(new BatalhaResponse(null,null,StatusPartida.PERDEU)),
+                        this.cliente);
+                ninguemPerdeu = false;
+            }
+        }while(ninguemPerdeu);
+
+        System.out.println("acabou e o jogador do ninja " + ninjaEscolhido.getName() + "Ganhou!");
+        controleDeJogo.finalizarPartida(ninjaEscolhido);
+        enviarParaCliente(new Gson().
+                toJson(new BatalhaResponse(null,null,StatusPartida.GANHOU)),
+                this.cliente);
+        /*
+                int cont = 15;
+        while(!ControleDeJogo.isVezDesteJogador(ninjaEscolhido.getIdNinja())){
+            if(cont%15 == 0){
+                System.out.println("Aguardando oponentes");
+            }
+            Thread.sleep(1000);
+            cont++;
+        }
+//        System.out.println("Passei daqui");
+        int aux = 4;
+        for (Integer adversarioId : ControleDeJogo.getIdUsers()) {
+            aux--;
+            enviarParaCliente(new Gson().toJson(ninjasDaBatalha.get(adversarioId).getStatus()), this.cliente);
+        }
+        for (int i = 0; i < aux; i++) {
+            enviarParaCliente("Oponente Derrotado", this.cliente);
+        }
+*/
     }
 
-    private void enviarParaCliente(String mensagem) throws IOException {
-        DataOutputStream paraCliente = new DataOutputStream(this.cliente.getOutputStream());
+    private void enviarParaCliente(String mensagem, Socket cliente) throws IOException {
+        DataOutputStream paraCliente = new DataOutputStream(cliente.getOutputStream());
         paraCliente.writeBytes(mensagem+ '\n');
     }
 
-
-
-    private String receberDoCliente() throws IOException {
+    private String receberDoCliente(Socket cliente) throws IOException {
         BufferedReader doCliente = new BufferedReader(new
-                InputStreamReader(this.cliente.getInputStream()));
+                InputStreamReader(cliente.getInputStream()));
         String resposta = doCliente.readLine();
         return resposta;
     }
