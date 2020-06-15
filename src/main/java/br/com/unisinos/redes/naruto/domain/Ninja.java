@@ -1,15 +1,13 @@
 package br.com.unisinos.redes.naruto.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.Random;
 
 @Builder
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "idNinja")
 public class Ninja {
     private int idNinja;
@@ -18,8 +16,8 @@ public class Ninja {
     private Jutsu jutsu;
     private int vida;
     private int chackra;
-    private final int chackraMax;
-    private final int vidaMax;
+    private int chackraMax;
+    private int vidaMax;
 
     public Ninja atacar(Ninja oponente){
 //        Colocar uma probabilidade de 50% de errar o golpe por exemplo

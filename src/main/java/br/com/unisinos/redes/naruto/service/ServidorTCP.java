@@ -110,7 +110,7 @@ public class ServidorTCP implements Runnable{
         do {
             while (!this.controleDeJogo.isVezDesteJogador(ninjaEscolhido.getIdNinja())) {
                 Thread.sleep(1000);
-                System.out.println("Esperando o jogador "+this.controleDeJogo.getIdAdversario()+" fazer sua jogada");
+                System.out.println("Esperando o jogador "+ this.controleDeJogo.getIdAdversario()+ " fazer sua jogada");
             }
             if(controleDeJogo.getNinjaVencedor() == null) {
 
@@ -164,25 +164,6 @@ public class ServidorTCP implements Runnable{
         enviarParaCliente(new Gson().
                 toJson(new BatalhaResponse(null,null,StatusPartida.GANHOU)),
                 this.cliente);
-        /*
-                int cont = 15;
-        while(!ControleDeJogo.isVezDesteJogador(ninjaEscolhido.getIdNinja())){
-            if(cont%15 == 0){
-                System.out.println("Aguardando oponentes");
-            }
-            Thread.sleep(1000);
-            cont++;
-        }
-//        System.out.println("Passei daqui");
-        int aux = 4;
-        for (Integer adversarioId : ControleDeJogo.getIdUsers()) {
-            aux--;
-            enviarParaCliente(new Gson().toJson(ninjasDaBatalha.get(adversarioId).getStatus()), this.cliente);
-        }
-        for (int i = 0; i < aux; i++) {
-            enviarParaCliente("Oponente Derrotado", this.cliente);
-        }
-*/
     }
 
     private void enviarParaCliente(String mensagem, Socket cliente) throws IOException {

@@ -48,7 +48,7 @@ public class ClienteTCP {
         ninjaAtribuido = new Gson().fromJson(receberDoServidor(),Ninja.class);
         ninjaAtribuido.setIdNinja(identificador);
         enviarParaServidor(new Gson().toJson(ninjaAtribuido));
-        System.out.println("chegou " + identificador);
+        System.out.println("Seu identificador: " + identificador);
         boolean terminou = false;
         while(!terminou){
 
@@ -58,9 +58,9 @@ public class ClienteTCP {
                   System.out.println("informações da batalha:");
                   System.out.println("seu ninja: " + batalha.getNinjaAtual().printNinja());
                   System.out.println("--------------------------------------------------------------");
-                  System.out.println(String.format("Ninja oponente: nome: %s/nvida: %d",
+                  System.out.println(String.format("Ninja oponente:\n nome: %s\nvida: %d",
                           batalha.getNinjaOponente().getName(), batalha.getNinjaOponente().getVida()));
-                  ninjaAtribuido.printaAtaquesDisponiveisEStatus();
+                  batalha.getNinjaAtual().printaAtaquesDisponiveisEStatus();
                   System.out.println("Digite o número correspondente ao ataque:"); //1 para ataque normal e 2 para jutsu
                   String ataqueEscolhido;
                   TipoAtaque ataque = null;
