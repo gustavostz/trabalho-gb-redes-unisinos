@@ -20,13 +20,13 @@ public class ColecaoNinja {
     public static Ninja createNinjaRandom(String name) {
         return Ninja.builder()
                 .name(name)
-                .ataqueNormal(new Random().nextInt(251) + 10) // vida entre 10 e 250
+                .ataqueNormal(new Random().nextInt(251) + 10) // dano entre 10 e 250
                 .chackra(new Random().nextInt(101))// vida entre 0 e 100
-//                .jutsoAtivo()
+                .jutsu(new Jutsu("Teste",TIPOJUTSO.DANO,10,10))
 //                .poder()
                 .vida(new Random().nextInt(301) + 10) // vida entre 10 e 300
                 .build();
-    };
+    }
 
     public static List<String> stringListaPersonagens(List<Ninja> colecaoNinja){
         List<String> listaPersonagens = new ArrayList<>();

@@ -1,9 +1,6 @@
 package br.com.unisinos.redes.naruto.service;
 
-import br.com.unisinos.redes.naruto.domain.ColecaoNinja;
-import br.com.unisinos.redes.naruto.domain.ControleDeJogo;
-import br.com.unisinos.redes.naruto.domain.Ninja;
-import br.com.unisinos.redes.naruto.domain.StatusPartida;
+import br.com.unisinos.redes.naruto.domain.*;
 import br.com.unisinos.redes.naruto.request.BatalhaRequest;
 import br.com.unisinos.redes.naruto.response.BatalhaResponse;
 import br.com.unisinos.redes.naruto.response.IdentificadorResponse;
@@ -113,12 +110,12 @@ public class ServidorTCP implements Runnable{
         do {
             while (!this.controleDeJogo.isVezDesteJogador(ninjaEscolhido.getIdNinja())) {
                 Thread.sleep(1000);
-                System.out.println("Esperando o jogador adversario fazer sua jogada");
+                System.out.println("Esperando o jogador "+this.controleDeJogo.getIdAdversario()+" fazer sua jogada");
             }
             if(controleDeJogo.getNinjaVencedor() == null) {
+
                 //minha vez de jogar
                 //buscar o jogador atualizado
-
                 Ninja ninjaSendoJogadoAtualmente = this.ninjasDaBatalha.stream().
                         filter(ninja -> ninja.equals(ninjaEscolhido)).
                                 findFirst().
@@ -142,7 +139,11 @@ public class ServidorTCP implements Runnable{
                 BatalhaRequest batalhaRequest = new Gson().fromJson(receberDoCliente(this.cliente), BatalhaRequest.class);
 
                 //atualiza estado do oponente
-                ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
+                if(batalhaRequest.getAtaque() == TipoAtaque.ATAQUE_BASICO){
+                    ninjaSendoJogadoAtualmente.atacar(ninjaAdversario);
+                }else{
+                    ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
+                }
 
                 ninjaSendoJogadoAtualmente.recuperaPoucoChackra();
                 //verifica condição do oponente

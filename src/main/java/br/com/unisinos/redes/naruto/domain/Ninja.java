@@ -34,7 +34,7 @@ public class Ninja {
             return oponente;
         }
 //        Colocar uma probabilidade de 10% de dar dano critico(2x o dano)
-        System.out.println("Você lançou o Jutsu "+ jutsu.getNome() +" do tipo "+ jutsu.getAtributo() + " e tirou " + jutsu.getDano() + " de vida!!");
+        System.out.println("Você lançou o Jutsu "+ jutsu.getNome() +" do tipo "+ jutsu.getTipo() + " e tirou " + jutsu.getDano() + " de vida!!");
         oponente.setVida(oponente.getVida() - jutsu.getDano());
         return oponente;
     }
@@ -58,5 +58,12 @@ public class Ninja {
     public void recuperaPoucoChackra() {
         int chackraASerRecuperado =  new Random().nextInt(11); //Recupera entre 0 e 10 de chackra
         chackra = chackra + Math.min(chackraASerRecuperado, chackraMax-chackra); //Ou recupera o esperado ou recupera oq faltava para o chackra maximo.
+    }
+
+
+    public String printNinja(){
+        String retorno = String.format("nome: %s \nvida: %d \nchackra: %d\nAtaque Basico: %d(dano)\nJutso:\n%s: ",
+                this.name,this.vida,this.chackra,this.ataqueNormal,this.jutsu.toString());
+        return retorno;
     }
 }

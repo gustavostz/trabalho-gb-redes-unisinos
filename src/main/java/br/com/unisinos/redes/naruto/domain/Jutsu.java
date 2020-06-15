@@ -10,8 +10,13 @@ import lombok.Data;
 public class Jutsu {
 
     private String nome;
-    private String atributo;
+    private TIPOJUTSO tipo;
     private int dano;
     private int chackaConsumido;
-//    private TIPOJUTSO tipo;
+
+    @Override
+    public String toString(){
+        return String.format("nome Justo: %s\n Dano: %d \nChacka Consumido: %d",this.nome,this.dano,this.chackaConsumido );
+    }
+
 }

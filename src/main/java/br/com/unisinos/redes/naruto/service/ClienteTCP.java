@@ -2,6 +2,10 @@ package br.com.unisinos.redes.naruto.service;
 
 import br.com.unisinos.redes.naruto.domain.ControleDeJogo;
 import br.com.unisinos.redes.naruto.domain.Ninja;
+import br.com.unisinos.redes.naruto.domain.StatusPartida;
+import br.com.unisinos.redes.naruto.domain.TipoAtaque;
+import br.com.unisinos.redes.naruto.request.BatalhaRequest;
+import br.com.unisinos.redes.naruto.response.BatalhaResponse;
 import br.com.unisinos.redes.naruto.response.IdentificadorResponse;
 import com.google.gson.Gson;
 
@@ -35,10 +39,6 @@ public class ClienteTCP {
 
 
         System.out.println("Escolha com quem irá jogar:");
-//        Type userListType = new TypeToken<ArrayList<User>>(){}.getType();
-//
-//        ArrayList<User> userArray = gson.fromJson(userJson, userListType);
-
         List<String> listaPersonagem = Arrays.asList(new Gson().fromJson(receberDoServidor(), String[].class));
         listaPersonagem.forEach(System.out::println);
 
@@ -51,33 +51,36 @@ public class ClienteTCP {
         System.out.println("chegou " + identificador);
         boolean terminou = false;
         while(!terminou){
-              if(minhaVezDeLutar(identificador)) {
 
-                  System.out.println("Oponentes: ");
-                  Thread.sleep(2000);
-                  System.out.println(receberDoServidor().replace("quebraLinha", "\n"));
-                  System.out.println(receberDoServidor().replace("quebraLinha", "\n"));
-                  System.out.println(receberDoServidor().replace("quebraLinha", "\n"));
-                  System.out.println(receberDoServidor().replace("quebraLinha", "\n\n"));
-
+              BatalhaResponse batalha = new Gson().fromJson(receberDoServidor(), BatalhaResponse.class);
+              switch (batalha.getStatusPartida()){
+                  case SUA_VEZ:
+                  System.out.println("informações da batalha:");
+                  System.out.println("seu ninja: " + batalha.getNinjaAtual().printNinja());
+                  System.out.println("--------------------------------------------------------------");
+                  System.out.println(String.format("Ninja oponente: nome: %s/nvida: %d",
+                          batalha.getNinjaOponente().getName(), batalha.getNinjaOponente().getVida()));
                   ninjaAtribuido.printaAtaquesDisponiveisEStatus();
-
                   System.out.println("Digite o número correspondente ao ataque:"); //1 para ataque normal e 2 para jutsu
-                  String ataqueEscolhido = TECLADO.nextLine();
+                  String ataqueEscolhido;
+                  TipoAtaque ataque = null;
+                  do {
+                      ataqueEscolhido = TECLADO.nextLine();
+                      ataque = selecaoTipoAtaque(ataqueEscolhido);
+                  } while (ataque == null);
+                  BatalhaRequest batalhaRequest = new BatalhaRequest();
+                  batalhaRequest.setAtaque(ataque);
+                  enviarParaServidor(new Gson().toJson(batalhaRequest));
+                  break;
+                  case GANHOU:
+                      System.out.println("você ganhou o jogo");
+                      terminou = true;
+                      break;
+                  case PERDEU:
+                      System.out.println("você perdeu o jogo");
+                      terminou = true;
+                      break;
               }
-//            enviarParaServidor("atualizaStatus");
-//            String atualizarStatus = receberDoServidor();
-            //desfragmenta os lutadores e apropria seus atributos
-            //exibe os lutadores e as habilidades
-            String habilidadeEscolhida = TECLADO.nextLine();
-            enviarParaServidor("habilidade:" + habilidadeEscolhida);
-            String acabou = receberDoServidor();
-            terminou = Boolean.parseBoolean(acabou);
-
-            enviarParaServidor("resultadoFinal");
-            String resultado = receberDoServidor();
-            System.out.println(resultado);
-            break;
         }
         /*
         ver uma forma de desfragmentar os atibutos, biblioteca Json
@@ -85,32 +88,9 @@ public class ClienteTCP {
          */
     }
 
-    private static boolean minhaVezDeLutar(int id) throws IOException, InterruptedException {
-        conectarControleDeJogo();
-        while(!ControleDeJogo.isVezDesteJogador(id)){
-            Thread.sleep(1000);
-            ControleDeJogo.setIdJogadorAtual(new Gson().fromJson(receberDoControleJogo(), int.class));
-        }
-        System.out.println("Passei daqui");
-        return true;
-    }
-
     private static boolean conectarServidor(){
         try{
             socketConexao = new Socket("127.0.0.1", 6789);
-            enviarParaServidor("isConect");
-            ninjaAtribuido = new Gson().fromJson(receberDoServidor(), Ninja.class);
-            return ninjaAtribuido != null;
-        }
-        catch(Exception ex){
-            System.out.println("Erro:" + ex.getMessage());
-            return false;
-        }
-    }
-
-    private static boolean conectarControleDeJogo(){
-        try{
-            socketControleJogo = new Socket("127.0.0.1", 6788);
             enviarParaServidor("isConect");
             return true;
         }
@@ -120,19 +100,16 @@ public class ClienteTCP {
         }
     }
 
-    private static void enviarParaControleJogo(String mensagem) throws IOException {
-
-        DataOutputStream paraServidor =
-                new DataOutputStream(socketControleJogo.getOutputStream());
-        paraServidor.writeBytes(mensagem + '\n');
-    }
-
-    private static String receberDoControleJogo() throws IOException {
-        BufferedReader doServidor = new BufferedReader(new
-                InputStreamReader(socketControleJogo.getInputStream()));
-
-        String resposta = doServidor.readLine();
-        return resposta;
+    private static TipoAtaque selecaoTipoAtaque(String ataqueEscolhido) {
+        TipoAtaque ataque;
+        if (ataqueEscolhido.equals("1")) {
+            ataque = TipoAtaque.ATAQUE_BASICO;
+        } else if (ataqueEscolhido.equals("2")) {
+            ataque = TipoAtaque.JUTSO;
+        } else {
+            ataque = null;
+        }
+        return ataque;
     }
 
     private static void enviarParaServidor(String mensagem) throws IOException {
