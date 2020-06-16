@@ -37,13 +37,12 @@ public class ClienteTCP {
         int identificador = identificadorResponse.getIdentificador();
         enviarParaServidor("ok");
 
-
         System.out.println("Escolha com quem irá jogar:");
         List<String> listaPersonagem = Arrays.asList(new Gson().fromJson(receberDoServidor(), String[].class));
         listaPersonagem.forEach(System.out::println);
 
-        String escolha = TECLADO.nextLine();
-        enviarParaServidor(escolha);
+
+        validarNome();
 
         ninjaAtribuido = new Gson().fromJson(receberDoServidor(),Ninja.class);
         ninjaAtribuido.setIdNinja(identificador);
@@ -56,9 +55,8 @@ public class ClienteTCP {
               switch (batalha.getStatusPartida()){
                   case SUA_VEZ:
                   System.out.println("informações da batalha:");
-                  System.out.println("seu ninja: " + batalha.getNinjaAtual().printNinja());
                   System.out.println("--------------------------------------------------------------");
-                  System.out.println(String.format("Ninja oponente:\n nome: %s\nvida: %d",
+                  System.out.println(String.format("Ninja oponente:\nnome: %s       |      vida: %d",
                           batalha.getNinjaOponente().getName(), batalha.getNinjaOponente().getVida()));
                   batalha.getNinjaAtual().printaAtaquesDisponiveisEStatus();
                   System.out.println("Digite o número correspondente ao ataque:"); //1 para ataque normal e 2 para jutsu
@@ -88,6 +86,21 @@ public class ClienteTCP {
         ver uma forma de desfragmentar os atibutos, biblioteca Json
         uma forma de identificar os 2 lutadores, provavel de utilizar id na frente de cada solicitação.
          */
+    }
+
+    private static void validarNome() throws IOException {
+        boolean nomeInvalido = true;
+        do {
+            String escolha = TECLADO.nextLine();
+            enviarParaServidor(escolha);
+            String resposta = receberDoServidor();
+            if(resposta.equals("ok")){
+                nomeInvalido = false;
+            }
+            else{
+                System.out.println(resposta);
+            }
+        }while(nomeInvalido);
     }
 
     private static boolean conectarServidor(){

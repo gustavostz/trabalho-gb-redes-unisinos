@@ -21,6 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8bb6fa4e-0cd1-45b2-abf5-0eb479023064" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/Ninja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/Ninja.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ClienteTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ClienteTCP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ServidorTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ServidorTCP.java" afterDir="false" />
@@ -33,8 +34,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -100,6 +101,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Ninja" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.com.unisinos.redes.naruto.domain.Ninja" />
+      <module name="trabalho-gb-redes-unisinos" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.com.unisinos.redes.naruto.domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServidorTCP" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.com.unisinos.redes.naruto.service.ServidorTCP" />
       <module name="trabalho-gb-redes-unisinos" />
@@ -117,6 +131,7 @@
       <list>
         <item itemvalue="Application.ClienteTCP" />
         <item itemvalue="Application.ServidorTCP" />
+        <item itemvalue="Application.Ninja" />
         <item itemvalue="Application.Application" />
       </list>
     </recent_temporary>
@@ -146,7 +161,7 @@
       <workItem from="1592186503369" duration="7263000" />
       <workItem from="1592236569270" duration="3312000" />
       <workItem from="1592248687228" duration="3322000" />
-      <workItem from="1592268385356" duration="1963000" />
+      <workItem from="1592268385356" duration="5437000" />
     </task>
     <task id="LOCAL-00001" summary="adicionados metodos para suporte a batalha de 2 jogadores, faltando apenas o ClienteTCP para implementação e posteriores testes">
       <created>1591753220358</created>
@@ -191,10 +206,10 @@
     </state>
     <state x="440" y="114" key="#Project_Structure/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1590104503323" />
     <state x="440" y="110" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1591310683584" />
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1591308709213">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1592271629560">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1591308709213" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1592271629560" />
     <state x="690" y="296" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1592188996438">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -211,51 +226,51 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591286048198" />
-    <state width="1877" height="198" key="GridCell.Tab.0.bottom" timestamp="1592270316284">
+    <state width="1877" height="405" key="GridCell.Tab.0.bottom" timestamp="1592273965967">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.bottom/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744834" />
     <state width="1876" height="285" key="GridCell.Tab.0.bottom/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="198" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1592270316284" />
-    <state width="1877" height="198" key="GridCell.Tab.0.center" timestamp="1592270316284">
+    <state width="1877" height="405" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
+    <state width="1877" height="405" key="GridCell.Tab.0.center" timestamp="1592273965967">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.center/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744833" />
     <state width="1876" height="285" key="GridCell.Tab.0.center/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="198" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1592270316284" />
-    <state width="1877" height="198" key="GridCell.Tab.0.left" timestamp="1592270316284">
+    <state width="1877" height="405" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
+    <state width="1877" height="405" key="GridCell.Tab.0.left" timestamp="1592273965967">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.left/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744833" />
     <state width="1876" height="285" key="GridCell.Tab.0.left/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="198" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1592270316284" />
-    <state width="1877" height="198" key="GridCell.Tab.0.right" timestamp="1592270316284">
+    <state width="1877" height="405" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
+    <state width="1877" height="405" key="GridCell.Tab.0.right" timestamp="1592273965967">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.right/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744833" />
     <state width="1876" height="285" key="GridCell.Tab.0.right/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="198" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1592270316284" />
-    <state width="914" height="414" key="GridCell.Tab.1.bottom" timestamp="1592250049678">
+    <state width="1877" height="405" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
+    <state width="1877" height="414" key="GridCell.Tab.1.bottom" timestamp="1592273965965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="914" height="414" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1592250049678" />
-    <state width="914" height="414" key="GridCell.Tab.1.center" timestamp="1592250049677">
+    <state width="1877" height="414" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965965" />
+    <state width="1877" height="414" key="GridCell.Tab.1.center" timestamp="1592273965965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="914" height="414" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1592250049677" />
-    <state width="914" height="414" key="GridCell.Tab.1.left" timestamp="1592250049677">
+    <state width="1877" height="414" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965965" />
+    <state width="1877" height="414" key="GridCell.Tab.1.left" timestamp="1592273965965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="914" height="414" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1592250049677" />
-    <state width="914" height="414" key="GridCell.Tab.1.right" timestamp="1592250049678">
+    <state width="1877" height="414" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965965" />
+    <state width="1877" height="414" key="GridCell.Tab.1.right" timestamp="1592273965965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="914" height="414" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1592250049678" />
-    <state x="490" y="188" key="Maven.ArtifactSearchDialog" timestamp="1591275528670">
+    <state width="1877" height="414" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965965" />
+    <state x="490" y="188" key="Maven.ArtifactSearchDialog" timestamp="1592271473577">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="490" y="195" key="Maven.ArtifactSearchDialog/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591094235082" />
-    <state x="490" y="188" key="Maven.ArtifactSearchDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1591275528670" />
+    <state x="490" y="188" key="Maven.ArtifactSearchDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592271473577" />
     <state x="455" y="95" key="SettingsEditor" timestamp="1591752319439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -269,10 +284,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1591753031446" />
-    <state x="690" y="270" key="extract.method.dialog" timestamp="1592189676575">
+    <state x="690" y="270" key="extract.method.dialog" timestamp="1592273782706">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="270" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592189676575" />
+    <state x="690" y="270" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592273782706" />
     <state x="462" y="178" width="672" height="653" key="search.everywhere.popup" timestamp="1591753055369">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -284,12 +299,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/Ninja.java</url>
-          <line>67</line>
+          <line>84</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ClienteTCP.java</url>
-          <line>72</line>
+          <line>70</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>

@@ -20,11 +20,22 @@ public class Ninja {
     private int vidaMax;
 
     public String atacar(Ninja oponente){
+        String retorno;
+        boolean acertouOGolpe = (Math.random() <= 0.5);
+        if(!acertouOGolpe){
+            return "você errou o golpe!!";
+        }
+        if(Math.random() >= 0.1) {
+            oponente.setVida(oponente.getVida() - ataqueNormal);
+            retorno = String.format("Acertou e causou %d de dano no inimigo.", ataqueNormal);
 
-//        Colocar uma probabilidade de 50% de errar o golpe por exemplo
-//        Colocar uma probabilidade de 10% de dar dano critico(1.5x o dano)
-        oponente.setVida(oponente.getVida() - ataqueNormal);
-        String retorno = String.format("Acertou e causou %d de dano no inimigo",ataqueNormal);
+        }
+        else{
+            int ataqueCritado = (ataqueNormal * 2);
+            oponente.setVida(oponente.getVida() - ataqueCritado);
+            retorno = String.format("Acertou um CRITICO e causou %d de dano no inimigo!", ataqueCritado);
+
+        }
         return retorno;
     }
 
@@ -34,9 +45,15 @@ public class Ninja {
             retorno = "Você tentou usar um jutsu sem chackra e por não administrar seu chackra perdeu sua vez!";
             return retorno;
         }
-//        Colocar uma probabilidade de 10% de dar dano critico(2x o dano)
-        retorno = String.format("Você lançou o Jutsu %s do tipo %s e tirou %d de vida!!",jutsu.getNome(),jutsu.getTipo(),jutsu.getDano());
-        oponente.setVida(oponente.getVida() - jutsu.getDano());
+        if(Math.random() >= 0.1) {
+            oponente.setVida(oponente.getVida() - jutsu.getDano());
+            retorno = String.format("Você lançou o Jutsu %s do tipo %s e tirou %d de vida!!",jutsu.getNome(),jutsu.getTipo(),jutsu.getDano());
+        }
+        else{
+            int ataqueCritado = (jutsu.getDano() * 2);
+            oponente.setVida(oponente.getVida() - ataqueCritado);
+            retorno = String.format("Você lançou o Jutsu %s do tipo %s e acertou um CRITICO tirando %d de vida!!",jutsu.getNome(),jutsu.getTipo(),ataqueCritado);
+        }
         int chackraRestante = this.chackra - this.jutsu.getChackaConsumido();
         this.setChackra(chackraRestante);
         return retorno;
@@ -69,4 +86,5 @@ public class Ninja {
                 this.name,this.vida,this.chackra,this.ataqueNormal,this.jutsu.toString());
         return retorno;
     }
+
 }

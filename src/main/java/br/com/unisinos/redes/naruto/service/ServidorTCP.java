@@ -85,7 +85,12 @@ public class ServidorTCP implements Runnable{
                         ninjaEscolhido = ninjasBatalhantes.stream().filter(x -> x.getName().equalsIgnoreCase(personagem))
                                 .findFirst()
                                 .orElse(null);
-
+                        if(ninjaEscolhido != null){
+                            enviarParaCliente("ok",this.cliente);
+                        }
+                        else{
+                            enviarParaCliente("Nome Invalido",this.cliente);
+                        }
                     } while (ninjaEscolhido == null);
                     System.out.println("o jogador " + this.cliente.getInetAddress().getHostAddress() + " escolheu: " + ninjaEscolhido.getName());
                     this.ninjasDaBatalha.add(ninjaEscolhido);
