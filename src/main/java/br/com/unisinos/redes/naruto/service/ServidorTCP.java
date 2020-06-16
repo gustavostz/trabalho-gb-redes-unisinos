@@ -91,8 +91,8 @@ public class ServidorTCP implements Runnable{
                     this.ninjasDaBatalha.add(ninjaEscolhido);
                     enviarParaCliente(new Gson().toJson(ninjaEscolhido), this.cliente);
                     int identificador = new Gson().fromJson(receberDoCliente(this.cliente),Ninja.class).getIdNinja();
-                    ninjaEscolhido.setIdNinja(identificador);
                     this.controleDeJogo.addUser(identificador);
+                    ninjaEscolhido.setIdNinja(identificador);
                     jogar(ninjaEscolhido);
                 }
             }
@@ -110,7 +110,6 @@ public class ServidorTCP implements Runnable{
         do {
             while (!this.controleDeJogo.isVezDesteJogador(ninjaEscolhido.getIdNinja())) {
                 Thread.sleep(1000);
-                System.out.println("Esperando o jogador "+ this.controleDeJogo.getIdAdversario()+ " fazer sua jogada");
             }
             if(controleDeJogo.getNinjaVencedor() == null) {
 
@@ -139,12 +138,14 @@ public class ServidorTCP implements Runnable{
                 BatalhaRequest batalhaRequest = new Gson().fromJson(receberDoCliente(this.cliente), BatalhaRequest.class);
 
                 //atualiza estado do oponente
-                if(batalhaRequest.getAtaque() == TipoAtaque.ATAQUE_BASICO){
-                    ninjaSendoJogadoAtualmente.atacar(ninjaAdversario);
-                }else{
-                    ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
-                }
+                String resultadoAtaque = "";
 
+                if(batalhaRequest.getAtaque() == TipoAtaque.ATAQUE_BASICO){
+                    resultadoAtaque = ninjaSendoJogadoAtualmente.atacar(ninjaAdversario);
+                }else{
+                    resultadoAtaque = ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
+                }
+                enviarParaCliente(resultadoAtaque,this.cliente);
                 ninjaSendoJogadoAtualmente.recuperaPoucoChackra();
                 //verifica condição do oponente
                 ninguemPerdeu = ninjaAdversario.isVivo();
@@ -155,12 +156,12 @@ public class ServidorTCP implements Runnable{
                 enviarParaCliente(new Gson().
                                 toJson(new BatalhaResponse(null,null,StatusPartida.PERDEU)),
                         this.cliente);
-                ninguemPerdeu = false;
+                return;
             }
         }while(ninguemPerdeu);
 
-        System.out.println("acabou e o jogador do ninja " + this.controleDeJogo.getNinjaVencedor() + "Ganhou!");
         controleDeJogo.finalizarPartida(ninjaEscolhido);
+        System.out.println("acabou e o jogador do ninja " + this.controleDeJogo.getNinjaVencedor() + "Ganhou!");
         enviarParaCliente(new Gson().
                 toJson(new BatalhaResponse(null,null,StatusPartida.GANHOU)),
                 this.cliente);

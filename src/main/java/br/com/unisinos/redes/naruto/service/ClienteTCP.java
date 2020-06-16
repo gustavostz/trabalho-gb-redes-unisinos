@@ -71,6 +71,8 @@ public class ClienteTCP {
                   BatalhaRequest batalhaRequest = new BatalhaRequest();
                   batalhaRequest.setAtaque(ataque);
                   enviarParaServidor(new Gson().toJson(batalhaRequest));
+                  String resultadoDoAtaque = receberDoServidor();
+                  System.out.println(resultadoDoAtaque);
                   break;
                   case GANHOU:
                       System.out.println("você ganhou o jogo");
