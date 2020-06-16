@@ -26,7 +26,12 @@ public class ControleDeJogo {
     }
 
     public  void atualizaJogadorAtual(){
-       this.idJogadorAtual = idUsers.stream().filter(item -> item != idJogadorAtual).findFirst().get();
+//       this.idJogadorAtual = idUsers.stream().filter(item -> item != idJogadorAtual).findFirst().get();
+        if(idJogadorAtual == idUsers.get(idUsers.size()-1)){
+            idJogadorAtual = idUsers.get(0);
+        } else {
+            idJogadorAtual = idUsers.get(idUsers.indexOf(idJogadorAtual) + 1);
+        }
     }
 
     public  void addUser(int userId) {
