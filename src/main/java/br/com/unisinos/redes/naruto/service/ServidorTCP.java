@@ -159,7 +159,7 @@ public class ServidorTCP implements Runnable{
             }
         }while(ninguemPerdeu);
 
-        System.out.println("acabou e o jogador do ninja " + ninjaEscolhido.getName() + "Ganhou!");
+        System.out.println("acabou e o jogador do ninja " + this.controleDeJogo.getNinjaVencedor() + "Ganhou!");
         controleDeJogo.finalizarPartida(ninjaEscolhido);
         enviarParaCliente(new Gson().
                 toJson(new BatalhaResponse(null,null,StatusPartida.GANHOU)),
