@@ -21,9 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8bb6fa4e-0cd1-45b2-abf5-0eb479023064" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/Ninja.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/Ninja.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ClienteTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ClienteTCP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/ControleDeJogo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/ControleDeJogo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ServidorTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ServidorTCP.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,6 +160,12 @@
       <workItem from="1592236569270" duration="3312000" />
       <workItem from="1592248687228" duration="3322000" />
       <workItem from="1592268385356" duration="5437000" />
+      <workItem from="1592275849894" duration="130000" />
+      <workItem from="1592331516770" duration="610000" />
+      <workItem from="1592351211592" duration="408000" />
+      <workItem from="1592417220053" duration="1404000" />
+      <workItem from="1592439786634" duration="91000" />
+      <workItem from="1592445089333" duration="1115000" />
     </task>
     <task id="LOCAL-00001" summary="adicionados metodos para suporte a batalha de 2 jogadores, faltando apenas o ClienteTCP para implementação e posteriores testes">
       <created>1591753220358</created>
@@ -222,34 +226,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="479" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1592249947393" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1591286048198">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1592439873098">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591286048198" />
-    <state width="1877" height="405" key="GridCell.Tab.0.bottom" timestamp="1592273965967">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1592439873098" />
+    <state width="1877" height="744" key="GridCell.Tab.0.bottom" timestamp="1592446167477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.bottom/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744834" />
     <state width="1876" height="285" key="GridCell.Tab.0.bottom/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="405" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
-    <state width="1877" height="405" key="GridCell.Tab.0.center" timestamp="1592273965967">
+    <state width="1877" height="744" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1592446167477" />
+    <state width="1877" height="744" key="GridCell.Tab.0.center" timestamp="1592446167476">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.center/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744833" />
     <state width="1876" height="285" key="GridCell.Tab.0.center/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="405" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
-    <state width="1877" height="405" key="GridCell.Tab.0.left" timestamp="1592273965967">
+    <state width="1877" height="744" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1592446167476" />
+    <state width="1877" height="744" key="GridCell.Tab.0.left" timestamp="1592446167476">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.left/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744833" />
     <state width="1876" height="285" key="GridCell.Tab.0.left/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="405" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
-    <state width="1877" height="405" key="GridCell.Tab.0.right" timestamp="1592273965967">
+    <state width="1877" height="744" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1592446167476" />
+    <state width="1877" height="744" key="GridCell.Tab.0.right" timestamp="1592446167476">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1492" height="288" key="GridCell.Tab.0.right/-1920.0.1536.864/0.0.1920.1080@-1920.0.1536.864" timestamp="1590105744833" />
     <state width="1876" height="285" key="GridCell.Tab.0.right/-1920.0.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1591099398618" />
-    <state width="1877" height="405" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1592273965967" />
+    <state width="1877" height="744" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1592446167476" />
     <state width="1877" height="414" key="GridCell.Tab.1.bottom" timestamp="1592273965965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -288,6 +292,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="270" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1592273782706" />
+    <state x="342" y="181" key="new project wizard" timestamp="1592439875351">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="342" y="181" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1592439875351" />
     <state x="462" y="178" width="672" height="653" key="search.everywhere.popup" timestamp="1591753055369">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -301,11 +309,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/domain/Ninja.java</url>
           <line>84</line>
           <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/br/com/unisinos/redes/naruto/service/ClienteTCP.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -47,4 +47,12 @@ public class ControleDeJogo {
     public Ninja getNinjaVencedor() {
         return ninjaVencedor;
     }
+
+    public int getJogadoresAtivos(){
+        return this.idUsers.size();
+    }
+
+    public void removerJogadorMorto(Ninja ninjaAdversario) {
+        this.idUsers.remove(ninjaAdversario.getIdNinja());
+    }
 }

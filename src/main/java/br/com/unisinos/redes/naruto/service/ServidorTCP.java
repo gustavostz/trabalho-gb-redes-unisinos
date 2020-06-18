@@ -49,16 +49,6 @@ public class ServidorTCP implements Runnable{
         while(ninjaBatalha.size() < 2){
             Thread.sleep(1000);
         }
-
-//        ControleDeJogo.setIdJogadorAtual(1);
-//        ServerSocket controleJogoSocket = new ServerSocket(6788);
-//        Socket cliente = controleJogoSocket.accept();
-//        BufferedReader doCliente =  new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-//        String fraseCliente = doCliente.readLine();
-//        if (TENTATIVA_CONEXAO.equals(fraseCliente)) {
-//
-//        }
-
         System.out.println("iniciando o jogo -- thread principal");
         while(controle.getNinjaVencedor() == null){
             Thread.sleep(1000);
@@ -111,12 +101,12 @@ public class ServidorTCP implements Runnable{
         while(ninjasDaBatalha.size() < 2){
             Thread.sleep(1000);
         }
-        boolean ninguemPerdeu = true;
+        boolean ninguemGanhou = true;
         do {
             while (!this.controleDeJogo.isVezDesteJogador(ninjaEscolhido.getIdNinja())) {
                 Thread.sleep(1000);
             }
-            if(controleDeJogo.getNinjaVencedor() == null) {
+            if(controleDeJogo.getJogadoresAtivos() > 1) {
 
                 //minha vez de jogar
                 //buscar o jogador atualizado
@@ -125,48 +115,53 @@ public class ServidorTCP implements Runnable{
                                 findFirst().
                                 get();
 
-                BatalhaResponse batalhaResponse = new BatalhaResponse();
+                if(ninjaSendoJogadoAtualmente.isVivo()) {
 
-                batalhaResponse.setNinjaAtual(ninjaSendoJogadoAtualmente);
-                Ninja ninjaAdversario = this.ninjasDaBatalha.stream().
-                        filter(item -> item.getIdNinja() == controleDeJogo.getIdAdversario())
-                        .findFirst().
-                                get();
-                batalhaResponse.setNinjaOponente(ninjaAdversario);
-                batalhaResponse.setStatusPartida(StatusPartida.SUA_VEZ);
+                    BatalhaResponse batalhaResponse = new BatalhaResponse();
 
-                enviarParaCliente(new Gson().toJson(batalhaResponse), this.cliente);
+                    batalhaResponse.setNinjaAtual(ninjaSendoJogadoAtualmente);
+                    Ninja ninjaAdversario = this.ninjasDaBatalha.stream().
+                            filter(item -> item.getIdNinja() == controleDeJogo.getIdAdversario())
+                            .findFirst().
+                                    get();
+                    batalhaResponse.setNinjaOponente(ninjaAdversario);
+                    batalhaResponse.setStatusPartida(StatusPartida.SUA_VEZ);
 
-                Thread.sleep(1000);
+                    enviarParaCliente(new Gson().toJson(batalhaResponse), this.cliente);
 
-                //estou mantendo para caso o ninja tenha mais de um jutso
-                BatalhaRequest batalhaRequest = new Gson().fromJson(receberDoCliente(this.cliente), BatalhaRequest.class);
+                    Thread.sleep(1000);
 
-                //atualiza estado do oponente
-                String resultadoAtaque = "";
+                    //estou mantendo para caso o ninja tenha mais de um jutso
+                    BatalhaRequest batalhaRequest = new Gson().fromJson(receberDoCliente(this.cliente), BatalhaRequest.class);
 
-                if(batalhaRequest.getAtaque() == TipoAtaque.ATAQUE_BASICO){
-                    resultadoAtaque = ninjaSendoJogadoAtualmente.atacar(ninjaAdversario);
-                }else{
-                    resultadoAtaque = ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
+                    //atualiza estado do oponente
+                    String resultadoAtaque = "";
+
+                    if (batalhaRequest.getAtaque() == TipoAtaque.ATAQUE_BASICO) {
+                        resultadoAtaque = ninjaSendoJogadoAtualmente.atacar(ninjaAdversario);
+                    } else {
+                        resultadoAtaque = ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
+                    }
+                    enviarParaCliente(resultadoAtaque, this.cliente);
+                    ninjaSendoJogadoAtualmente.recuperaPoucoChackra();
                 }
-                enviarParaCliente(resultadoAtaque,this.cliente);
-                ninjaSendoJogadoAtualmente.recuperaPoucoChackra();
-                //verifica condição do oponente
-                ninguemPerdeu = ninjaAdversario.isVivo();
+                else{
+                    enviarParaCliente(new Gson().
+                                    toJson(new BatalhaResponse(null,null,StatusPartida.PERDEU)),
+                            this.cliente);
+                    this.controleDeJogo.removerJogadorMorto(ninjaSendoJogadoAtualmente);
+                    return;
+                }
                 //atualiza o controle do jogo para ser a vez do adversario
                 this.controleDeJogo.atualizaJogadorAtual();
             }
             else{
-                enviarParaCliente(new Gson().
-                                toJson(new BatalhaResponse(null,null,StatusPartida.PERDEU)),
-                        this.cliente);
-                return;
+                ninguemGanhou = false;
             }
-        }while(ninguemPerdeu);
+        }while(ninguemGanhou);
 
         controleDeJogo.finalizarPartida(ninjaEscolhido);
-        System.out.println("acabou e o jogador do ninja " + this.controleDeJogo.getNinjaVencedor() + "Ganhou!");
+        System.out.println("acabou e o jogador do ninja " + this.controleDeJogo.getNinjaVencedor().getName() + "Ganhou!");
         enviarParaCliente(new Gson().
                 toJson(new BatalhaResponse(null,null,StatusPartida.GANHOU)),
                 this.cliente);
