@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class BatalhaResponse {
-    private Ninja ninjaOponente;
+    private List<Ninja> ninjaOponentes;
     private Ninja ninjaAtual;
     private StatusPartida statusPartida;
 }

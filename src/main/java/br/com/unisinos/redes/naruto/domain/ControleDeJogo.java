@@ -26,7 +26,12 @@ public class ControleDeJogo {
     }
 
     public  void atualizaJogadorAtual(){
-       this.idJogadorAtual = idUsers.stream().filter(item -> item != idJogadorAtual).findFirst().get();
+//       this.idJogadorAtual = idUsers.stream().filter(item -> item != idJogadorAtual).findFirst().get();
+        if(idJogadorAtual == idUsers.get(idUsers.size()-1)){
+            idJogadorAtual = idUsers.get(0);
+        } else {
+            idJogadorAtual = idUsers.get(idUsers.indexOf(idJogadorAtual) + 1);
+        }
     }
 
     public  void addUser(int userId) {
@@ -52,7 +57,12 @@ public class ControleDeJogo {
         return this.idUsers.size();
     }
 
-    public void removerJogadorMorto(Ninja ninjaAdversario) {
-        this.idUsers.remove(ninjaAdversario.getIdNinja());
+    public void removerJogadorMorto() {
+        for (Integer item : this.idUsers) {
+            if(this.idJogadorAtual == item) {
+                this.idUsers.remove(item);
+                break;
+            }
+        }
     }
 }

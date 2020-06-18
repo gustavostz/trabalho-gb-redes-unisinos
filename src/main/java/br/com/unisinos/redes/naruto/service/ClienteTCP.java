@@ -21,7 +21,6 @@ import java.util.Scanner;
 public class ClienteTCP {
     private static final Scanner TECLADO = new Scanner(System.in);
     private static Socket socketConexao;
-    private static Socket socketControleJogo;
     private static Ninja ninjaAtribuido;
 
     public static void main (String args[]) throws Exception{
@@ -56,9 +55,16 @@ public class ClienteTCP {
                   case SUA_VEZ:
                   System.out.println("informações da batalha:");
                   System.out.println("--------------------------------------------------------------");
-                  System.out.println(String.format("Ninja oponente:\nnome: %s       |      vida: %d",
-                          batalha.getNinjaOponente().getName(), batalha.getNinjaOponente().getVida()));
+                  System.out.println("Ninja oponentes: ");
+                  batalha.getNinjaOponentes().forEach(ninjaOponente ->
+                          System.out.println(String.format("[%d] nome: %s       |      vida: %d/%d %s",
+                                  ninjaOponente.getIdNinja(), ninjaOponente.getName(),
+                                  ninjaOponente.getVida() > 0 ?ninjaOponente.getVida() : 0,
+                                  ninjaOponente.getVidaMax(),
+                                  ninjaOponente.isVivo()?"":" | Morto")));
+
                   batalha.getNinjaAtual().printaAtaquesDisponiveisEStatus();
+
                   System.out.println("Digite o número correspondente ao ataque:"); //1 para ataque normal e 2 para jutsu
                   String ataqueEscolhido;
                   TipoAtaque ataque = null;
@@ -66,8 +72,18 @@ public class ClienteTCP {
                       ataqueEscolhido = TECLADO.nextLine();
                       ataque = selecaoTipoAtaque(ataqueEscolhido);
                   } while (ataque == null);
+
+                  System.out.println("Digite o número correspondente ao Ninja que deseja atacar:"); //1 para ataque normal e 2 para jutsu
+                  String ninjaASerAtacadoId;
+                  Ninja ninjaASerAtacado = null;
+                  do {
+                      ninjaASerAtacadoId = TECLADO.nextLine();
+                      ninjaASerAtacado = selecaoNinja(ninjaASerAtacadoId, batalha.getNinjaOponentes());
+                  } while (ninjaASerAtacado == null);
+
                   BatalhaRequest batalhaRequest = new BatalhaRequest();
                   batalhaRequest.setAtaque(ataque);
+                  batalhaRequest.setAdversario(ninjaASerAtacado);
                   enviarParaServidor(new Gson().toJson(batalhaRequest));
                   String resultadoDoAtaque = receberDoServidor();
                   System.out.println(resultadoDoAtaque);
@@ -86,6 +102,10 @@ public class ClienteTCP {
         ver uma forma de desfragmentar os atibutos, biblioteca Json
         uma forma de identificar os 2 lutadores, provavel de utilizar id na frente de cada solicitação.
          */
+    }
+
+    private static Ninja selecaoNinja(String ninjaASerAtacadoId, List<Ninja> oponentesNinjas) {
+        return oponentesNinjas.stream().filter(ninja -> ninja.getIdNinja() == Integer.parseInt(ninjaASerAtacadoId)).findFirst().orElse(null);
     }
 
     private static void validarNome() throws IOException {
