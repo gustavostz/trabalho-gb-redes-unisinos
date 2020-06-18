@@ -1,14 +1,12 @@
 package br.com.unisinos.redes.naruto.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+
 public class ColecaoNinja {
 
 
-    public static List<Ninja> getColecaoNinja(){
+    public static List<Ninja> getColecaoNinja() {
         List<Ninja> colecaoNinja = new ArrayList<>();
         colecaoNinja.add(criarNaruto());
         colecaoNinja.add(criarSasuke());
@@ -24,9 +22,9 @@ public class ColecaoNinja {
         return colecaoNinja;
     }
 
-    public static List<String> stringListaPersonagens(List<Ninja> colecaoNinja){
+    public static List<String> stringListaPersonagens(List<Ninja> colecaoNinja) {
         List<String> listaPersonagens = new ArrayList<>();
-        
+
         listaPersonagens.add("==================Catalago Ninja==================");
         listaPersonagens.add("||                                              ||");
         listaPersonagens.add("||                                              ||");
@@ -43,7 +41,7 @@ public class ColecaoNinja {
                 espacos.append(" ");
             }
 
-            listaPersonagens.add("|| -> "+ ninja.getName() + espacos.toString() + "||");
+            listaPersonagens.add("|| -> " + ninja.getName() + espacos.toString() + "||");
         });
 
         listaPersonagens.add("||                                              ||");
@@ -52,7 +50,7 @@ public class ColecaoNinja {
         return listaPersonagens;
     }
 
-    public static Ninja criarNaruto(){
+    public static Ninja criarNaruto() {
         Ninja naruto = new Ninja();
         naruto.setAtaqueNormal(30);
         naruto.setChackra(200);
@@ -60,11 +58,12 @@ public class ColecaoNinja {
         naruto.setName("Naruto");
         naruto.setVida(200);
         naruto.setVidaMax(200);
-        Jutsu jutsu = new Jutsu("Rasengan",TIPOJUTSO.DANO,45,40);
+        Jutsu jutsu = new Jutsu("Rasengan", TIPOJUTSO.DANO, 45, 40);
         naruto.setJutsu(jutsu);
-        return  naruto;
+        return naruto;
     }
-    public static Ninja criarSasuke(){
+
+    public static Ninja criarSasuke() {
         Ninja sasuke = new Ninja();
         sasuke.setAtaqueNormal(35);
         sasuke.setChackra(100);
@@ -72,11 +71,12 @@ public class ColecaoNinja {
         sasuke.setName("Sasuke");
         sasuke.setVida(200);
         sasuke.setVidaMax(200);
-        Jutsu jutsu = new Jutsu("Chidori",TIPOJUTSO.DANO,60,60);
+        Jutsu jutsu = new Jutsu("Chidori", TIPOJUTSO.DANO, 60, 60);
         sasuke.setJutsu(jutsu);
-        return  sasuke;
+        return sasuke;
     }
-    public static Ninja criarNeji(){
+
+    public static Ninja criarNeji() {
         Ninja neji = new Ninja();
         neji.setAtaqueNormal(20);
         neji.setChackra(120);
@@ -84,11 +84,12 @@ public class ColecaoNinja {
         neji.setName("Neji");
         neji.setVida(170);
         neji.setVidaMax(170);
-        Jutsu jutsu = new Jutsu("Oito Trigramas Sessenta e Quatro Palmas",TIPOJUTSO.DANO,40,40);
+        Jutsu jutsu = new Jutsu("Oito Trigramas Sessenta e Quatro Palmas", TIPOJUTSO.DANO, 40, 40);
         neji.setJutsu(jutsu);
-        return  neji;
+        return neji;
     }
-    public static Ninja criarKakashi(){
+
+    public static Ninja criarKakashi() {
         Ninja kakashi = new Ninja();
         kakashi.setAtaqueNormal(40);
         kakashi.setChackra(100);
@@ -96,11 +97,12 @@ public class ColecaoNinja {
         kakashi.setName("Kakashi");
         kakashi.setVida(220);
         kakashi.setVidaMax(220);
-        Jutsu jutsu = new Jutsu("Raikiri",TIPOJUTSO.DANO,45,50);
+        Jutsu jutsu = new Jutsu("Raikiri", TIPOJUTSO.DANO, 45, 50);
         kakashi.setJutsu(jutsu);
         return kakashi;
     }
-public static Ninja criarGaara(){
+
+    public static Ninja criarGaara() {
         Ninja gaara = new Ninja();
         gaara.setAtaqueNormal(20);
         gaara.setChackra(110);
@@ -108,11 +110,12 @@ public static Ninja criarGaara(){
         gaara.setName("Gaara");
         gaara.setVida(300);
         gaara.setVidaMax(300);
-        Jutsu jutsu = new Jutsu("Caixão de areia",TIPOJUTSO.DANO,30,30);
+        Jutsu jutsu = new Jutsu("Caixão de areia", TIPOJUTSO.DANO, 30, 30);
         gaara.setJutsu(jutsu);
         return gaara;
     }
-    public static Ninja criarLee(){
+
+    public static Ninja criarLee() {
         Ninja rockLee = new Ninja();
         rockLee.setAtaqueNormal(50);
         rockLee.setChackra(70);
@@ -120,11 +123,12 @@ public static Ninja criarGaara(){
         rockLee.setName("Rock Lee");
         rockLee.setVida(180);
         rockLee.setVidaMax(180);
-        Jutsu jutsu = new Jutsu("Furacão da folha",TIPOJUTSO.DANO,60,70);
+        Jutsu jutsu = new Jutsu("Furacão da folha", TIPOJUTSO.DANO, 60, 70);
         rockLee.setJutsu(jutsu);
         return rockLee;
     }
-    public static Ninja criarGuy(){
+
+    public static Ninja criarGuy() {
         Ninja guy = new Ninja();
         guy.setAtaqueNormal(55);
         guy.setChackra(70);
@@ -132,11 +136,12 @@ public static Ninja criarGaara(){
         guy.setName("Might Guy");
         guy.setVida(160);
         guy.setVidaMax(160);
-        Jutsu jutsu = new Jutsu("Pavão da Manhã",TIPOJUTSO.DANO,70,70);
+        Jutsu jutsu = new Jutsu("Pavão da Manhã", TIPOJUTSO.DANO, 70, 70);
         guy.setJutsu(jutsu);
         return guy;
     }
-    public static Ninja criarObito(){
+
+    public static Ninja criarObito() {
         Ninja obito = new Ninja();
         obito.setAtaqueNormal(40);
         obito.setChackra(55);
@@ -144,11 +149,12 @@ public static Ninja criarGaara(){
         obito.setName("Obito");
         obito.setVida(160);
         obito.setVidaMax(160);
-        Jutsu jutsu = new Jutsu("Kamui",TIPOJUTSO.DANO,50,20);
+        Jutsu jutsu = new Jutsu("Kamui", TIPOJUTSO.DANO, 50, 20);
         obito.setJutsu(jutsu);
         return obito;
     }
-    public static Ninja criarMinato(){
+
+    public static Ninja criarMinato() {
         Ninja minato = new Ninja();
         minato.setAtaqueNormal(40);
         minato.setChackra(55);
@@ -156,11 +162,12 @@ public static Ninja criarGaara(){
         minato.setName("Minato");
         minato.setVida(160);
         minato.setVidaMax(160);
-        Jutsu jutsu = new Jutsu("Teleporte",TIPOJUTSO.DANO,50,20);
+        Jutsu jutsu = new Jutsu("Teleporte", TIPOJUTSO.DANO, 50, 20);
         minato.setJutsu(jutsu);
         return minato;
     }
-    public static Ninja criarSakura(){
+
+    public static Ninja criarSakura() {
         Ninja sakura = new Ninja();
         sakura.setAtaqueNormal(40);
         sakura.setChackra(100);
@@ -168,11 +175,12 @@ public static Ninja criarGaara(){
         sakura.setName("Sakura");
         sakura.setVida(250);
         sakura.setVidaMax(250);
-        Jutsu jutsu = new Jutsu("Impulso do Punho Certeiro",TIPOJUTSO.DANO,45,30);
+        Jutsu jutsu = new Jutsu("Impulso do Punho Certeiro", TIPOJUTSO.DANO, 45, 30);
         sakura.setJutsu(jutsu);
         return sakura;
     }
-    public static Ninja criarItachi(){
+
+    public static Ninja criarItachi() {
         Ninja itachi = new Ninja();
         itachi.setAtaqueNormal(40);
         itachi.setChackra(100);
@@ -180,7 +188,7 @@ public static Ninja criarGaara(){
         itachi.setName("Itachi");
         itachi.setVida(250);
         itachi.setVidaMax(250);
-        Jutsu jutsu = new Jutsu("Susano",TIPOJUTSO.DANO,100,100);
+        Jutsu jutsu = new Jutsu("Susano", TIPOJUTSO.DANO, 100, 100);
         itachi.setJutsu(jutsu);
         return itachi;
     }

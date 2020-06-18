@@ -15,8 +15,8 @@ public class Jutsu {
     private int chackaConsumido;
 
     @Override
-    public String toString(){
-        return String.format("nome Justo: %s\n Dano: %d \nChacka Consumido: %d",this.nome,this.dano,this.chackaConsumido );
+    public String toString() {
+        return String.format("nome Justo: %s\n Dano: %d \nChacka Consumido: %d", this.nome, this.dano, this.chackaConsumido);
     }
 
 }

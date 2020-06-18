@@ -1,6 +1,6 @@
 package br.com.unisinos.redes.naruto.domain;
 
-enum TIPOJUTSO{
+enum TIPOJUTSO {
     DANO,
     DEFESA
 }
