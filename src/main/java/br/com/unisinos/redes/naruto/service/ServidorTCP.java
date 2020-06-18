@@ -126,13 +126,6 @@ public class ServidorTCP implements Runnable{
                 batalhaResponse.setNinjaOponentes(ninjasAdversarios);
                 batalhaResponse.setStatusPartida(StatusPartida.SUA_VEZ);
 
-//                    batalhaResponse.setNinjaAtual(ninjaSendoJogadoAtualmente);
-//                    Ninja ninjaAdversario = this.ninjasDaBatalha.stream().
-//                            filter(item -> item.getIdNinja() == controleDeJogo.getIdAdversario())
-//                            .findFirst().
-//                                    get();
-//                    batalhaResponse.setNinjaOponente(ninjaAdversario);
-//                    batalhaResponse.setStatusPartida(StatusPartida.SUA_VEZ);
 
                     enviarParaCliente(new Gson().toJson(batalhaResponse), this.cliente);
 
@@ -143,14 +136,6 @@ public class ServidorTCP implements Runnable{
 
                     //atualiza estado do oponente
                     String resultadoAtaque = "";
-//
-//                    if (batalhaRequest.getAtaque() == TipoAtaque.ATAQUE_BASICO) {
-//                        resultadoAtaque = ninjaSendoJogadoAtualmente.atacar(ninjaAdversario);
-//                    } else {
-//                        resultadoAtaque = ninjaSendoJogadoAtualmente.usarJutsu(ninjaAdversario);
-//                    }
-//                    enviarParaCliente(resultadoAtaque, this.cliente);
-//                    ninjaSendoJogadoAtualmente.recuperaPoucoChackra();
 
                 if(batalhaRequest.getAtaque() == TipoAtaque.ATAQUE_BASICO){
                     resultadoAtaque = ninjaSendoJogadoAtualmente.atacar(batalhaRequest.getAdversario());

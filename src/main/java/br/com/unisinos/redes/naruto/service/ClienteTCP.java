@@ -98,10 +98,6 @@ public class ClienteTCP {
                       break;
               }
         }
-        /*
-        ver uma forma de desfragmentar os atibutos, biblioteca Json
-        uma forma de identificar os 2 lutadores, provavel de utilizar id na frente de cada solicitação.
-         */
     }
 
     private static Ninja selecaoNinja(String ninjaASerAtacadoId, List<Ninja> oponentesNinjas) {
