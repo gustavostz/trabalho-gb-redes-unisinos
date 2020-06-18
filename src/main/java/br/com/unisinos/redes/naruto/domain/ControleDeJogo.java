@@ -57,9 +57,9 @@ public class ControleDeJogo {
         return this.idUsers.size();
     }
 
-    public void removerJogadorMorto() {
+    public void removerJogadorMorto(Ninja ninjaMorto) {
         for (Integer item : this.idUsers) {
-            if(this.idJogadorAtual == item) {
+            if(ninjaMorto.getIdNinja() == item) {
                 this.idUsers.remove(item);
                 break;
             }

@@ -152,8 +152,8 @@ public class ServidorTCP implements Runnable{
                     enviarParaCliente(new Gson().
                                     toJson(new BatalhaResponse(null,null,StatusPartida.PERDEU)),
                             this.cliente);
-                    this.controleDeJogo.removerJogadorMorto();
                     this.controleDeJogo.atualizaJogadorAtual();
+                    this.controleDeJogo.removerJogadorMorto(ninjaEscolhido);
                     return;
                 }
                 //atualiza o controle do jogo para ser a vez do adversario
